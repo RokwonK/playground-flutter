@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 void main() => runApp(MyApp());
 
@@ -47,6 +48,12 @@ class MyPage extends StatelessWidget {
                 backgroundImage: AssetImage('assets/team.JPG'),
                 backgroundColor: Colors.white,
               ),
+              otherAccountsPictures: [
+                CircleAvatar(
+                  backgroundImage: AssetImage('assets/team.JPG'),
+                  backgroundColor: Colors.white,
+                ),
+              ],
               accountName: Text('rokwon'),
               accountEmail: Text('a@aaa.com'),
               onDetailsPressed: () {
@@ -59,11 +66,86 @@ class MyPage extends StatelessWidget {
                   bottomRight: Radius.circular(40.0),
                 )
               ),
+            ),
+            ListTile(
+              leading: Icon(Icons.home,
+                color: Colors.grey[850],
+              ),
+              title: Text('Home'),
+              onTap: (){
+                print('home Tap');
+              },
+              trailing: Icon(Icons.add),
+            ),
+            ListTile(
+              leading: Icon(Icons.settings,
+                color: Colors.grey[850],
+              ),
+              title: Text('Settings'),
+              onTap: (){
+                print('setting Tap');
+              },
+              trailing: Icon(Icons.add),
+            ),
+            ListTile(
+              leading: Icon(Icons.question_answer,
+                color: Colors.grey[850],
+              ),
+              title: Text('Q&A'),
+              onTap: (){
+                print('Q&A Tap');
+              },
+              trailing: Icon(Icons.add),
             )
           ],
         ),
       ),
+      body: Center(
+        child: FlatButton(
+          onPressed: () {
+            flutterToast();
+          },
+          child: Text('Toast'),
+          color: Colors.blue,
+        )
+      )
     );
   }
+}
 
+void flutterToast() {
+  Fluttertoast.showToast(
+    msg: 'flutter',
+    gravity: ToastGravity.BOTTOM,
+    backgroundColor: Colors.redAccent,
+    fontSize: 20.0,
+    textColor: Colors.white,
+    toastLength: Toast.LENGTH_SHORT,
+  );
+}
+
+class MySnackBar extends StatelessWidget {
+  const MySnackBar({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: RaisedButton(
+        child: Text('Show me'),
+        onPressed: () {
+          Scaffold.of(context)
+            .showSnackBar(SnackBar(
+              content: Text('Hellow',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white
+                ),
+              ),
+              backgroundColor: Colors.teal,
+              duration: Duration(milliseconds: 1000),
+          ));
+        },
+      ),
+    );
+  }
 }
