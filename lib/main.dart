@@ -1,5 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import './toastWithButton.dart';
+import './snackBarWithButton.dart';
+import './containerTest.dart';
+import './columnTest.dart';
 
 void main() => runApp(MyApp());
 
@@ -7,11 +11,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Appbar',
       theme: ThemeData(
-        primarySwatch: Colors.red
+        primarySwatch: Colors.blueGrey
       ),
-      home: MyPage(),
+      initialRoute: '/m',
+      routes: {
+        '/m' : (ctx) => MyPage(),
+        '/s' : (ctx) => SecondPage(),
+      },
     );
   }
 }
@@ -100,51 +109,48 @@ class MyPage extends StatelessWidget {
           ],
         ),
       ),
-      body: Center(
-        child: FlatButton(
-          onPressed: () {
-            flutterToast();
-          },
-          child: Text('Toast'),
-          color: Colors.blue,
-        )
-      )
+      backgroundColor: Colors.blue,
+      body: NavigatorTest()
     );
   }
 }
 
-void flutterToast() {
-  Fluttertoast.showToast(
-    msg: 'flutter',
-    gravity: ToastGravity.BOTTOM,
-    backgroundColor: Colors.redAccent,
-    fontSize: 20.0,
-    textColor: Colors.white,
-    toastLength: Toast.LENGTH_SHORT,
-  );
-}
-
-class MySnackBar extends StatelessWidget {
-  const MySnackBar({Key? key}) : super(key: key);
+class NavigatorTest extends StatelessWidget {
+  const NavigatorTest({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: RaisedButton(
-        child: Text('Show me'),
+        child: Text('Go to Second'),
         onPressed: () {
-          Scaffold.of(context)
-            .showSnackBar(SnackBar(
-              content: Text('Hellow',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white
-                ),
-              ),
-              backgroundColor: Colors.teal,
-              duration: Duration(milliseconds: 1000),
-          ));
+          Navigator.pushNamed(context, '/s');
+          // Navigator.push(context, MaterialPageRoute(
+          //   builder: (_) =>  SecondPage()
+          // ));
         },
+      ),
+    );
+  }
+}
+
+class SecondPage extends StatelessWidget {
+  const SecondPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('SecondPage'),
+        elevation: 0.0,
+      ),
+      body: Center(
+        child: RaisedButton(
+          child: Text('Go to First'),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
     );
   }
